@@ -1,4 +1,5 @@
 const express = require('express')
+const Job = require('../models/jobModel')
 
 const router = express.Router()
 
@@ -13,8 +14,16 @@ router.get('/:id', (req, res) => {
   })
 
 // POST a new workout
-router.post('/',(req, res) => {
-    res.json({mssg: 'POST a single workout'})
+router.post('/', async (req, res) => {
+    const {role, company, jobID, status} = req.body
+    
+    try {
+      //create new Job document -> returns Job document and its id
+      const job = await Job.create({role, company, jobID, status})
+      res.status(200).json(job)
+    } catch (error) {
+      res.status(400).json({error: error.message})
+    }
   })
 
 // DELETE a workout
