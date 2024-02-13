@@ -1,39 +1,27 @@
 const express = require('express')
-const Job = require('../models/jobModel')
+const {
+  getJobs, 
+  getJob, 
+  createJob, 
+  deleteJob, 
+  updateJob
+} = require('../controllers/jobController')
 
 const router = express.Router()
 
-// GET all workouts
-router.get('/', (req, res) => {
-    res.json({mssg: 'GET all workouts'})
-  })
+// GET all jobs
+router.get('/', getJobs)
 
-// GET a single workout
-router.get('/:id', (req, res) => {
-    res.json({mssg: 'GET a single workout'})
-  })
+// GET a single Job
+router.get('/:id', getJob)
 
-// POST a new workout
-router.post('/', async (req, res) => {
-    const {role, company, jobID, status} = req.body
-    
-    try {
-      //create new Job document -> returns Job document and its id
-      const job = await Job.create({role, company, jobID, status})
-      res.status(200).json(job)
-    } catch (error) {
-      res.status(400).json({error: error.message})
-    }
-  })
+// POST a new Job
+router.post('/', createJob)
 
-// DELETE a workout
-router.delete('/:id', (req, res) => {
-    res.json({mssg: 'GET a single workout'})
-  })
+// DELETE a Job
+router.delete('/:id', deleteJob)
 
-// UPDATE a workout
-router.patch('/:id', (req, res) => {
-    res.json({mssg: 'UPDATE a single workout'})
-  })
+// UPDATE a Job
+router.patch('/:id', updateJob)
 
 module.exports = router
